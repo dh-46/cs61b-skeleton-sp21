@@ -210,8 +210,56 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        int size = b.size();
+        for (int row = 0; row < size; row ++) {
+            for (int column = 0; column < size; column++) {
+                Tile tile = b.tile(column, row);
+                // has empty space
+                if (tile == null || tile.next() == null) return true;
+
+                // check nearby tiles
+                if (nearbyHasMoves(tile, b)) return true;
+            }
+        }
         return false;
+    }
+
+    /**
+     * Check if there are moves in four directions
+     * @param tile
+     * @return
+     */
+    private static boolean nearbyHasMoves(Tile tile, Board board) {
+        int col = tile.col();
+        int row = tile.row();
+
+        int upIndex = row - 1;
+        if (upIndex >= 0) {
+            Tile up = board.tile(col, upIndex);
+            if (canMove(tile, up)) return true;
+        }
+        int downIndex = row + 1;
+        if (downIndex < board.size()) {
+            Tile down = board.tile(col, downIndex);
+            if (canMove(tile, down)) return true;
+        }
+
+        int rightIndex = col + 1;
+        if (rightIndex < board.size()) {
+            Tile right = board.tile(rightIndex, row);
+            if (canMove(tile, right)) return true;
+        }
+        int leftIndex = col - 1;
+        if (leftIndex >= 0) {
+            Tile left = board.tile(leftIndex, row);
+            if (canMove(tile, left)) return true;
+        }
+
+        return false;
+    }
+
+    private static boolean canMove(Tile tile, Tile next) {
+        return next == null || next.value() == tile.value();
     }
 
 
