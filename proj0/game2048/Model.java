@@ -139,11 +139,69 @@ public class Model extends Observable {
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
+        // Set side as NORTH
+        // 3
+        // 2
+        // 1
+        // 0 1 2 3
+        board.setViewingPerspective(side);
+
+        // 因為有旋轉可以只考慮單行
+        // 0 2 0 2 -> 0 0 0 4
+        // 2 4 2 4 -> 2 4 2 4
+        // 0 2 2 2 -> 0 0 2 4
+        // 從最後 (3) 往前取，如果
+        // 1. null -> 往前移動
+        // 2. 與 (index 2) 相同則合併
+        // 3. 不同維持不變
+        // 檢視（index 1）是否與 (index 0) 相同，是就合併並移動至 index 2
+        // 不同 -> 兩位 index 各 + 1，最後一位補 null
+
+        int size = board.size();
+
+        // move up
+        for (int col = 0; col < size; col++) {
+            // shift rows
+            int checkTimes = size;
+            int mergedRow = -1;
+            while (checkTimes > 0) {
+                for (int row = size - 2; row >= 0; row--) {
+                    int prevRow = row + 1;
+                    Tile prev = board.tile(col, prevRow);
+                    // Two pointer?
+                    Tile target = board.tile(col, row);
+                    if (target == null) {
+                        continue;
+                    }
+                    if (prev == null) {
+                        board.move(col, prevRow, target);
+                    } else {
+                        if (prev.value() == target.value()) {
+                            if (prevRow != mergedRow) {
+                                board.move(col, prevRow, target);
+                                Tile merged = target.merge(col, prevRow, prev);
+                                mergedRow = prevRow;
+                                score = score + merged.value();
+                            }
+                        }
+                    }
+                    changed = true;
+
+
+                    System.out.println("tile = col " + col + "; row = " + row);
+                }
+
+                checkTimes--;
+            }
+        }
+
 
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
 
+        // Reset to original
+        board.setViewingPerspective(Side.NORTH);
         checkGameOver();
         if (changed) {
             setChanged();
@@ -174,7 +232,7 @@ public class Model extends Observable {
         // get the size of board
         int size = b.size();
         // go through each spaces on the board
-        for (int row = 0; row < size; row ++) {
+        for (int row = 0; row < size; row++) {
             for (int column = 0; column < size; column++) {
                 Tile tile = b.tile(column, row);
                 // If there is an empty space return true
@@ -193,7 +251,7 @@ public class Model extends Observable {
         // get the size of board
         int size = b.size();
         // go through each spaces on the board
-        for (int row = 0; row < size; row ++) {
+        for (int row = 0; row < size; row++) {
             for (int column = 0; column < size; column++) {
                 Tile tile = b.tile(column, row);
                 // If there is a tile with max value
@@ -211,7 +269,7 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         int size = b.size();
-        for (int row = 0; row < size; row ++) {
+        for (int row = 0; row < size; row++) {
             for (int column = 0; column < size; column++) {
                 Tile tile = b.tile(column, row);
                 // has empty space
@@ -226,6 +284,7 @@ public class Model extends Observable {
 
     /**
      * Check if there are moves in four directions
+     *
      * @param tile
      * @return
      */
