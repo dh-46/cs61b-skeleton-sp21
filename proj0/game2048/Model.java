@@ -146,59 +146,59 @@ public class Model extends Observable {
         // 0 1 2 3
         board.setViewingPerspective(side);
 
-        // 因為有旋轉可以只考慮單行
-        // 0 2 0 2 -> 0 0 0 4
-        // 2 4 2 4 -> 2 4 2 4
-        // 0 2 2 2 -> 0 0 2 4
-        // 從最後 (3) 往前取，如果
-        // 1. null -> 往前移動
-        // 2. 與 (index 2) 相同則合併
-        // 3. 不同維持不變
-        // 檢視（index 1）是否與 (index 0) 相同，是就合併並移動至 index 2
-        // 不同 -> 兩位 index 各 + 1，最後一位補 null
+        /**
+         * 旋轉後的座標系 [col,row]
+         *
+         * [0,3][1,3][2,3][3,3]
+         * [0,2][1,2][2,2][3,2]
+         * [0,1][1,1][2,1][3,1]
+         * [0,0][1,0][2,0][3,0]
+         *
+         * 因為每一行做的事情都一樣，再加上都有旋轉，可以想成操作單行 row
+         *
+         * 由 index 2 往前檢查，是否可往前移動或合併。
+         */
 
+        // 取得盤面大小
         int size = board.size();
 
-        // move up
+        // 從左至右一行一行檢查
         for (int col = 0; col < size; col++) {
-            // shift rows
+            // 逐列檢查
             int checkTimes = size;
-            int mergedRow = -1;
+            // 紀錄被合併的行數
+            int mergedRowIndex = size + 1;
+            // 總共要完整檢查盤面大小的次數
             while (checkTimes > 0) {
                 for (int row = size - 2; row >= 0; row--) {
-                    int prevRow = row + 1;
-                    Tile prev = board.tile(col, prevRow);
-                    // Two pointer?
+                    // 目標 Tile: 要被移動的
                     Tile target = board.tile(col, row);
+                    // 移動方向的下一位 Index
+                    int prevRowIndex = row + 1;
+                    // 移動方向的下一位 Tile
+                    Tile prev = board.tile(col, prevRowIndex);
                     if (target == null) {
+                        // 目標 Tile 是空的，繼續往上一位檢查
                         continue;
                     }
+
                     if (prev == null) {
-                        board.move(col, prevRow, target);
-                    } else {
-                        if (prev.value() == target.value()) {
-                            if (prevRow != mergedRow) {
-                                board.move(col, prevRow, target);
-                                Tile merged = target.merge(col, prevRow, prev);
-                                mergedRow = prevRow;
-                                score = score + merged.value();
-                            }
-                        }
+                        // 移動方向的下一位是空的，可以直接移動
+                        board.move(col, prevRowIndex, target);
+                        changed = true;
+                    } else if (isCanMerge(prev, target, prevRowIndex, mergedRowIndex)) {
+                        // 不是空的但可以合併
+                        board.move(col, prevRowIndex, target);
+                        Tile merged = target.merge(col, prevRowIndex, prev);
+                        mergedRowIndex = prevRowIndex;
+                        score = score + merged.value();
+                        changed = true;
                     }
-                    changed = true;
-
-
-                    System.out.println("tile = col " + col + "; row = " + row);
                 }
 
                 checkTimes--;
             }
         }
-
-
-        // TODO: Modify this.board (and perhaps this.score) to account
-        // for the tilt to the Side SIDE. If the board changed, set the
-        // changed local variable to true.
 
         // Reset to original
         board.setViewingPerspective(Side.NORTH);
@@ -207,6 +207,19 @@ public class Model extends Observable {
             setChanged();
         }
         return changed;
+    }
+
+    /**
+     * 是否可以合併
+     *
+     * @param prev
+     * @param target
+     * @param prevRowIndex
+     * @param mergedRowIndex
+     * @return
+     */
+    private boolean isCanMerge(Tile prev, Tile target, int prevRowIndex, int mergedRowIndex) {
+        return prev.value() == target.value() && prevRowIndex < mergedRowIndex;
     }
 
     /**
