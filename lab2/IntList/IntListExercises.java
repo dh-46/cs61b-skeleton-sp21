@@ -71,12 +71,34 @@ public class IntListExercises {
             return false;
         }
 
+        // Check if the current element is prime
         boolean currElemIsPrime = Primes.isPrime(lst.first);
 
+        // If it's prime, square it
         if (currElemIsPrime) {
             lst.first *= lst.first;
         }
 
-        return currElemIsPrime || squarePrimes(lst.rest);
+        // Recursively process the rest of the list and combine the results
+        boolean restHasPrime = squarePrimes(lst.rest);
+
+        // Return true if either the current element or the rest has a prime
+        return currElemIsPrime || restHasPrime;
+
+        // 以下是非 recursion 的做法
+//        IntList pointer = lst;
+//        int changedCount = 0;
+//
+//        while (pointer != null) {
+//            boolean currElemIsPrime = Primes.isPrime(pointer.first);
+//
+//            if (currElemIsPrime) {
+//                pointer.first *= pointer.first;
+//                changedCount++;
+//            }
+//            pointer = pointer.rest;
+//        }
+//
+//        return changedCount > 0;
     }
 }
