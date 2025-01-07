@@ -22,6 +22,40 @@ public class TimeAList {
     }
 
     public static void timeAListConstruction() {
-        // TODO: YOUR CODE HERE
+        // 測試次數
+        int[] timesArray = {1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000};
+        // 測試項目數
+        AList<Integer> Ns = new AList<>();
+        // 花費時間
+        AList<Double> spendTimes = new AList<>();
+
+        // 逐次執行測試
+        for (int addTimes : timesArray) {
+            // 測試 AList.addLast() 並回傳花費時間
+            double time = runAddLast(addTimes);
+
+            // 更新測試紀錄
+            spendTimes.addLast(time);
+            Ns.addLast(addTimes);
+        }
+
+        // 印出測試紀錄
+        printTimingTable(Ns, spendTimes, Ns);
+    }
+
+    /**
+     * 測試 AList.addLast()
+     * @param addTimes 幾次
+     * @return 總花費時間
+     */
+    private static double runAddLast(int addTimes) {
+        Stopwatch stopwatch = new Stopwatch();
+        AList<Integer> aList = new AList<>();
+
+        for (int j = 0; j < addTimes; j++) {
+            aList.addLast(j);
+        }
+
+        return stopwatch.elapsedTime();
     }
 }
