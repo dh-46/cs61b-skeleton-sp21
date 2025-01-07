@@ -46,13 +46,11 @@ public class TestBuggyAList {
                 int randVal = StdRandom.uniform(0, 100);
                 correct.addLast(randVal);
                 broken.addLast(randVal);
-                System.out.println("addLast(" + randVal + ")");
             } else if (operationNumber == 1) {
                 // size
                 int correctSize = correct.size();
                 int brokenSize = broken.size();
-                System.out.println("correct size: " + correctSize);
-                System.out.println("broken size: " + brokenSize);
+
                 assertEquals(correctSize, brokenSize);
             } else if (operationNumber == 2) {
                 int size = correct.size();
@@ -61,16 +59,12 @@ public class TestBuggyAList {
                     int correctLast = correct.getLast();
                     int brokenLast = broken.getLast();
 
-                    System.out.println("correct getLast: " + correctLast);
-                    System.out.println("broken getLast: " + brokenLast);
                     assertEquals(correctLast, brokenLast);
                 }
             } else {
                 if (correct.size() > 0 && broken.size() > 0) {
                     int correctRemoveLast = correct.removeLast();
                     int brokenRemoveLast = broken.removeLast();
-                    System.out.println("correctRemoveLast: " + correctRemoveLast);
-                    System.out.println("brokenRemoveLast: " + brokenRemoveLast);
 
                     assertEquals(correctRemoveLast, brokenRemoveLast);
                 }
