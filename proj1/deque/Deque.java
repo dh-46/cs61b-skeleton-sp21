@@ -65,15 +65,15 @@ public interface Deque<T> {
 
     public Iterator<T> iterator();
 
-    /**
-     * Returns whether or not the parameter o is equal to the Deque.
-     *
-     * o is considered equal if it is a Deque and
-     * if it contains the same contents (as goverened by the generic T’s equals method)
-     * in the same order.
-     *
-     * @param o target to compare
-     * @return true if is equal
-     */
-    public boolean equals(Object o);
+//    /**
+//     * Returns whether or not the parameter o is equal to the Deque.
+//     *
+//     * o is considered equal if it is a Deque and
+//     * if it contains the same contents (as goverened by the generic T’s equals method)
+//     * in the same order.
+//     *
+//     * @param o target to compare
+//     * @return true if is equal
+//     */
+//    public boolean equals(Object o);
 }
