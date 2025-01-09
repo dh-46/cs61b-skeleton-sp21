@@ -10,6 +10,8 @@ public class ArrayDeque<T> implements Deque<T> {
     private int nextFirst;
     private int nextLast;
 
+    private int RFACTOR = 2;
+
     public ArrayDeque() {
         items = (T[]) new Object[capacity];
         nextFirst = 0;
@@ -18,30 +20,26 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public void addFirst(T item) {
+        if (size == capacity) {
+            resize(capacity * RFACTOR);
+        }
+
         items[nextFirst] = item;
         nextFirst = minusOne(nextFirst);
         incrementSize();
     }
 
-    private int minusOne(int index) {
-        return (index - 1 + capacity) % capacity;
-    }
-
     @Override
     public void addLast(T item) {
+        if (size == capacity) {
+            resize(capacity * RFACTOR);
+        }
+
         items[nextLast] = item;
 
         nextLast = plusOne(nextLast);
 
         incrementSize();
-    }
-
-    private int plusOne(int index) {
-        return (index + 1) % capacity;
-    }
-
-    private void decrementSize() {
-        size -= 1;
     }
 
     @Override
@@ -66,11 +64,16 @@ public class ArrayDeque<T> implements Deque<T> {
         }
 
         System.out.println(builder);
+        System.out.println("Capacity = " + capacity + "; Size = " + size + "; Ratio = " + ( (double) size / capacity));
     }
 
     @Override
     public T removeFirst() {
         if (isEmpty()) return null;
+
+        if (isUsageRatioLow()) {
+            resize(capacity / 2);
+        }
 
         int first = plusOne(nextFirst);
         T item = items[first];
@@ -83,9 +86,19 @@ public class ArrayDeque<T> implements Deque<T> {
         return item;
     }
 
+    private boolean isUsageRatioLow() {
+        if (capacity <= 16) return false;
+        double ratio = (double) size / capacity;
+        return ratio <= 0.25;
+    }
+
     @Override
     public T removeLast() {
         if (isEmpty()) return null;
+
+        if (isUsageRatioLow()) {
+            resize(capacity / 2);
+        }
 
         int last = minusOne(nextLast);
         T item = items[last];
@@ -118,7 +131,32 @@ public class ArrayDeque<T> implements Deque<T> {
         return (nextFirst + 1 + i) % capacity;
     }
 
+    private void decrementSize() {
+        size -= 1;
+    }
+
     private void incrementSize() {
         size += 1;
+    }
+
+    private int minusOne(int index) {
+        return (index - 1 + capacity) % capacity;
+    }
+
+    private int plusOne(int index) {
+        return (index + 1) % capacity;
+    }
+
+    private void resize(int newCapacity) {
+        T[] tempItems = (T[]) new Object[newCapacity];
+
+        for (int i = 0; i < size; i++) {
+            tempItems[i] = items[getItemIndex(i)];
+        }
+
+        nextFirst = tempItems.length - 1;
+        nextLast = size;
+        capacity = newCapacity;
+        items = tempItems;
     }
 }
