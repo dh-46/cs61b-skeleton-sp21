@@ -21,58 +21,56 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public void addFirst(T item) {
+        if (isFull()) {
+            resize(capacity * RFACTOR);
+        }
+
         items[nextFirst] = item;
-        nextFirst = getUpdatedNextFirst(nextFirst, capacity);
+        nextFirst = minusOne(nextFirst);
 
         incrementSize();
-    }
-
-    /**
-     * @param nextFirst
-     * @param capacity
-     * @return
-     */
-    private int getUpdatedNextFirst(int nextFirst, int capacity) {
-        return (nextFirst - 1 + capacity) % capacity;
-    }
-
-    /**
-     * @param nextLast
-     * @param capacity
-     * @return
-     */
-    private int getUpdatedNextLast(int nextLast, int capacity) {
-        return (nextLast + 1) % capacity;
     }
 
     @Override
     public void addLast(T item) {
-        if (size == capacity) {
+        if (isFull()) {
             resize(capacity * RFACTOR);
         }
 
         items[nextLast] = item;
-        nextLast = getUpdatedNextLast(nextLast, capacity);
+        nextLast = plusOne(nextLast);
         incrementSize();
     }
 
+    /**
+     * Check if items array is full.
+     * @return true if item array is full.
+     */
+    private boolean isFull() {
+        return size == capacity;
+    }
+
+    /**
+     * Resize the item array
+     * @param newCapacity length for the new item array
+     */
     private void resize(int newCapacity) {
+        // 建立一個新的暫存陣列
         T[] temp = (T[]) new Object[newCapacity];
-        int currentIndex = (nextFirst + 1) % capacity;
-        int tempIndex = 0;
-        int count = size;
-        while (count > 0) {
-            T item = items[currentIndex];
-            temp[tempIndex] = item;
-            tempIndex += 1;
-            currentIndex = (currentIndex + 1) % capacity;
-            count--;
+
+        // 複製資料到新的陣列，同時從 index 0 開始排序
+        for (int i = 0; i < size; i++) {
+            temp[i] = items[getItemIndex(i)];
         }
 
+        // 重新排序後第一位為 index 0，所以 nextFirst 會是陣列最後一位。
         nextFirst = temp.length - 1;
-        nextLast = tempIndex;
+        // 最後一位 index 會是目前所儲存資料長度。
+        nextLast = size;
+        // 替換掉舊資料
         items = temp;
-        this.capacity = newCapacity;
+        // 更新資料陣列容量
+        capacity = newCapacity;
     }
 
     @Override
@@ -88,12 +86,16 @@ public class ArrayDeque<T> implements Deque<T> {
     @Override
     public void printDeque() {
         StringBuilder builder = new StringBuilder();
-        int currentIndex = (nextFirst + 1) % capacity;
-        while (currentIndex != nextLast) {
-            builder.append(items[currentIndex]);
-            builder.append(" ");
-            currentIndex = (currentIndex + 1) % capacity;
+
+        for (int i = 0; i < size; i++) {
+            builder.append(items[getItemIndex(i)]);
+
+            if (i < size - 1) {
+                // Don't the white space for the last item
+                builder.append(" ");
+            }
         }
+
         System.out.println(builder);
     }
 
@@ -101,12 +103,18 @@ public class ArrayDeque<T> implements Deque<T> {
     public T removeFirst() {
         if (size == 0) return null;
 
-        int first = (nextFirst + 1) % capacity;
+        // Get current first item
+        int first = plusOne(nextFirst);
         T item = items[first];
+        // Make first box empty (null)
         items[first] = null;
 
-        nextFirst = nextFirst + 1;
+        // Update nextFirst index by plus 1
+        nextFirst = plusOne(nextFirst);
+        // Update size
         decrementSize();
+
+        // Return the removed item
         return item;
     }
 
@@ -114,24 +122,40 @@ public class ArrayDeque<T> implements Deque<T> {
     public T removeLast() {
         if (size == 0) return null;
 
-        int last = (nextLast - 1) % capacity;
+        // Get current last item
+        int last = minusOne(nextLast);
         T item = items[last];
+        // Make the last box empty (null)
         items[last] = null;
-
-        nextLast = nextLast - 1;
+        // Update nextLast index by minus 1
+        nextLast = minusOne(nextLast);
+        // Update size
         decrementSize();
+
+        // Return the removed item
         return item;
     }
 
     @Override
     public T get(int index) {
-        if (index > size - 1) {
+        if (index >= size || index < 0) {
             // index out of bound
             return null;
         }
 
-        int realIndex = (nextFirst + 1 + index) % capacity;
-        return items[realIndex];
+        return items[getItemIndex(index)];
+    }
+
+    /**
+     * Convert user index to underlying item index
+     * 1. nextFirst + 1 -> first
+     * 2. % capacity -> convert to item index
+     *
+     * @param index userIndex
+     * @return
+     */
+    private int getItemIndex(int index) {
+        return (nextFirst + 1 + index) % capacity;
     }
 
     @Override
@@ -153,5 +177,23 @@ public class ArrayDeque<T> implements Deque<T> {
      */
     private void decrementSize() {
         size -= 1;
+    }
+
+    /**
+     * Minus 1 on index for circular data structure
+     * @param index old index
+     * @return new index
+     */
+    private int minusOne(int index) {
+        return (index - 1 + capacity) % capacity;
+    }
+
+    /**
+     * Plus 1 on index for circular data structure
+     * @param index old index
+     * @return new index
+     */
+    private int plusOne(int index) {
+        return (index + 1) % capacity;
     }
 }
