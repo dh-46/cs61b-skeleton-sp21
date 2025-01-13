@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T> {
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     private T[] items;
     private int size;
@@ -64,7 +64,7 @@ public class ArrayDeque<T> implements Deque<T> {
         }
 
         System.out.println(builder);
-        System.out.println("Capacity = " + capacity + "; Size = " + size + "; Ratio = " + ( (double) size / capacity));
+        System.out.println("Capacity = " + capacity + "; Size = " + size + "; Ratio = " + ((double) size / capacity));
     }
 
     @Override
@@ -120,11 +120,6 @@ public class ArrayDeque<T> implements Deque<T> {
         return items[getItemIndex(index)];
     }
 
-    @Override
-    public Iterator<T> iterator() {
-        return null;
-    }
-
     // ---------------------------------------------
 
     private int getItemIndex(int i) {
@@ -158,5 +153,31 @@ public class ArrayDeque<T> implements Deque<T> {
         nextLast = size;
         capacity = newCapacity;
         items = tempItems;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayDequeIterator();
+    }
+
+    private class ArrayDequeIterator implements Iterator<T> {
+
+        private int index;
+
+        public ArrayDequeIterator() {
+            index = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public T next() {
+            T item = get(index);
+            index += 1;
+            return item;
+        }
     }
 }

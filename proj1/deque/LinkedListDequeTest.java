@@ -194,4 +194,33 @@ public class LinkedListDequeTest {
         assertNull(linkedListDeque.getRecursive(3));
         assertNull(linkedListDeque.getRecursive(4));
     }
+
+    /**
+     * Enhanced for loop
+     */
+    @Test
+    public void iteratorTest() {
+        LinkedListDeque<String> linkedListDeque = new LinkedListDeque<>();
+        linkedListDeque.addLast("item-0");
+        linkedListDeque.addLast("item-1");
+        linkedListDeque.addLast("item-2");
+        linkedListDeque.addLast("item-3");
+        linkedListDeque.addLast("item-4");
+        linkedListDeque.addLast("item-5");
+
+        String expected = "item-0,item-1,item-2,item-3,item-4,item-5,";
+
+        StringBuilder builder = new StringBuilder();
+
+        for (String item : linkedListDeque) {
+            builder.append(item);
+            builder.append(",");
+        }
+
+        String result = builder.toString();
+
+        System.out.println(result);
+
+        assertEquals(result, expected);
+    }
 }

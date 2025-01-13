@@ -62,9 +62,6 @@ public interface Deque<T> {
      */
     public T get(int index);
 
-
-    public Iterator<T> iterator();
-
 //    /**
 //     * Returns whether or not the parameter o is equal to the Deque.
 //     *

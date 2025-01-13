@@ -163,4 +163,32 @@ public class ArrayDequeTest {
         assertNull(arrayDeque.get(-1));
         assertNull(arrayDeque.get(5));
     }
+
+    /**
+     * Enhanced for loop
+     */
+    @Test
+    public void iteratorTest() {
+        ArrayDeque<String> arrayDeque = new ArrayDeque<>();
+        arrayDeque.addLast("item-0");
+        arrayDeque.addLast("item-1");
+        arrayDeque.addLast("item-2");
+        arrayDeque.addLast("item-3");
+        arrayDeque.addLast("item-4");
+        arrayDeque.addLast("item-5");
+
+        String expected = "item-0,item-1,item-2,item-3,item-4,item-5,";
+
+        StringBuilder builder = new StringBuilder();
+
+        for (String item : arrayDeque) {
+            builder.append(item);
+            builder.append(",");
+        }
+
+        String result = builder.toString();
+        System.out.println(result);
+
+        assertEquals(result, expected);
+    }
 }
