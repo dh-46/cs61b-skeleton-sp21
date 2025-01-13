@@ -191,4 +191,75 @@ public class ArrayDequeTest {
 
         assertEquals(result, expected);
     }
+
+    /**
+     * equals() 兩者相同
+     */
+    @Test
+    public void equalsTest_is_same() {
+        ArrayDeque<String> a1 = new ArrayDeque<>();
+        a1.addLast("item-0");
+
+        ArrayDeque<String> b1 = new ArrayDeque<>();
+        b1.addLast("item-0");
+
+        assertEquals(a1, b1);
+    }
+
+    /**
+     * equals() 陣列皆為空
+     */
+    @Test
+    public void equalsTest_both_empty_is_same() {
+        ArrayDeque<String> a1 = new ArrayDeque<>();
+
+        ArrayDeque<String> b1 = new ArrayDeque<>();
+
+        assertEquals(a1, b1);
+    }
+
+    /**
+     * equals() 兩者不同
+     */
+    @Test
+    public void equalsTest_is_not_the_same() {
+        ArrayDeque<String> a1 = new ArrayDeque<>();
+        a1.addLast("item-0");
+        a1.addLast("item-1");
+
+        ArrayDeque<String> b1 = new ArrayDeque<>();
+        b1.addLast("item-0");
+
+        assertNotEquals(a1, b1);
+    }
+
+    /**
+     * equals() 泛型類別不同
+     */
+    @Test
+    public void equalsTest_is_differentType() {
+        ArrayDeque<String> a1 = new ArrayDeque<>();
+        a1.addLast("item-0");
+        a1.addLast("item-1");
+
+        ArrayDeque<Integer> b1 = new ArrayDeque<>();
+        b1.addLast(12);
+
+        assertNotEquals(a1, b1);
+    }
+
+    /**
+     * equals() 類別不同
+     */
+    @Test
+    public void equalsTest_is_differentClass() {
+        ArrayDeque<String> a1 = new ArrayDeque<>();
+        a1.addLast("item-0");
+        a1.addLast("item-1");
+
+        LinkedListDeque<Integer> b1 = new LinkedListDeque<>();
+        b1.addLast(12);
+
+        assertNotEquals(a1, b1);
+    }
 }

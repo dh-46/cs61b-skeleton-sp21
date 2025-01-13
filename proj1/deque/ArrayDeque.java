@@ -122,6 +122,31 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     // ---------------------------------------------
 
+    @Override
+    public boolean equals(Object obj) {
+        // 如果是同一個指向的物件那就不用再檢查了 (有助於效能)
+        if (obj == this) return true;
+
+        // 是否同型別
+        if (obj instanceof ArrayDeque) {
+            ArrayDeque<?> otherArrayDeque = (ArrayDeque<?>) obj;
+            // 數量不同
+            if (otherArrayDeque.size != this.size) return false;
+
+            for (int i = 0; i < size; i++) {
+                T item = get(i);
+                T other = (T) otherArrayDeque.get(i);
+                if (item != other) return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    // ---------------------------------------------
+
     private int getItemIndex(int i) {
         return (nextFirst + 1 + i) % capacity;
     }
@@ -154,6 +179,8 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         capacity = newCapacity;
         items = tempItems;
     }
+
+    // -------------------------------------------------
 
     @Override
     public Iterator<T> iterator() {

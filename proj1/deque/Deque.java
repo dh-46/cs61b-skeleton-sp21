@@ -61,16 +61,4 @@ public interface Deque<T> {
      * @return If no such item exists, returns null.
      */
     public T get(int index);
-
-//    /**
-//     * Returns whether or not the parameter o is equal to the Deque.
-//     *
-//     * o is considered equal if it is a Deque and
-//     * if it contains the same contents (as goverened by the generic T’s equals method)
-//     * in the same order.
-//     *
-//     * @param o target to compare
-//     * @return true if is equal
-//     */
-//    public boolean equals(Object o);
 }
