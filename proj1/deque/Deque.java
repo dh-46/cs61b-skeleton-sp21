@@ -10,24 +10,30 @@ public interface Deque<T> {
 
     /**
      * Add an item of type T to the front of the deque
+     *
      * @param item can assume item is never null
      */
     public void addFirst(T item);
 
     /**
      * Adds an item of type T to the back of the deque.
+     *
      * @param item can assume that item is never null.
      */
     public void addLast(T item);
 
     /**
      * Check is deque empty
+     *
      * @return true if deque is empty, false otherwise.
      */
-    public boolean isEmpty();
+    public default boolean isEmpty() {
+        return size() == 0;
+    }
 
     /**
      * Returns the number of items in the deque
+     *
      * @return deque's size
      */
     public int size();
@@ -40,12 +46,14 @@ public interface Deque<T> {
 
     /**
      * Removes and returns the item at the front of the deque.
+     *
      * @return If no such item exists, returns null.
      */
     public T removeFirst();
 
     /**
      * Removes and returns the item at the back of the deque.
+     *
      * @return If no such item exists, returns null.
      */
     public T removeLast();
@@ -54,7 +62,7 @@ public interface Deque<T> {
      * Gets the item at the given index,
      * where 0 is the front,
      * 1 is the next item, and so forth.
-     *
+     * <p>
      * Must not alter the deque!
      *
      * @param index position of the item
