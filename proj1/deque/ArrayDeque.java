@@ -129,26 +129,28 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             return true;
         }
 
-        // 是否同型別
-        if (obj instanceof ArrayDeque) {
-            ArrayDeque<?> otherArrayDeque = (ArrayDeque<?>) obj;
-            // 數量不同
-            if (otherArrayDeque.size != this.size) {
-                return false;
-            }
-
-            for (int i = 0; i < size; i++) {
-                T item = get(i);
-                T other = (T) otherArrayDeque.get(i);
-                if (item != other) {
-                    return false;
-                }
-            }
-
-            return true;
+        // Not Deque
+        if (!(obj instanceof Deque)) {
+            return false;
         }
 
-        return false;
+        Deque<?> otherList = (Deque<?>) obj;
+
+        // 數量不同
+        if (otherList.size() != this.size) {
+            return false;
+        }
+
+        for (int i = 0; i < size; i++) {
+            T item = get(i);
+            T other = (T) otherList.get(i);
+
+            if (!item.equals(other)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     // ---------------------------------------------

@@ -186,15 +186,15 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
             return true;
         }
 
-        // 不同型別
-        if (!(obj instanceof LinkedListDeque)) {
+        // Not Deque
+        if (!(obj instanceof Deque)) {
             return false;
         }
 
-        LinkedListDeque<?> otherList = (LinkedListDeque<?>) obj;
+        Deque<?> otherList = (Deque<?>) obj;
 
         // 數量不同
-        if (otherList.size != this.size) {
+        if (otherList.size() != this.size) {
             return false;
         }
 
@@ -202,7 +202,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
             T item = get(i);
             T other = (T) otherList.get(i);
 
-            if (item != other) {
+            if (!item.equals(other)) {
                 return false;
             }
         }

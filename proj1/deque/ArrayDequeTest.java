@@ -234,6 +234,20 @@ public class ArrayDequeTest {
     }
 
     /**
+     * equals() 兩者不同
+     */
+    @Test
+    public void equalsTest_is_the_same_dog() {
+        ArrayDeque<Dog> a1 = new ArrayDeque<>();
+        a1.addLast(new Dog(1, "Amy"));
+
+        ArrayDeque<Dog> b1 = new ArrayDeque<>();
+        b1.addLast(new Dog(1, "Amy"));
+
+        assertEquals(a1, b1);
+    }
+
+    /**
      * equals() 泛型類別不同
      */
     @Test
@@ -249,17 +263,18 @@ public class ArrayDequeTest {
     }
 
     /**
-     * equals() 類別不同
+     * equals() 不同 Deque 實作但相同內容
      */
     @Test
-    public void equalsTest_is_differentClass() {
+    public void equalsTest_is_differentDequeImplement_but_with_same_items() {
         ArrayDeque<String> a1 = new ArrayDeque<>();
         a1.addLast("item-0");
         a1.addLast("item-1");
 
-        LinkedListDeque<Integer> b1 = new LinkedListDeque<>();
-        b1.addLast(12);
+        LinkedListDeque<String> b1 = new LinkedListDeque<>();
+        b1.addLast("item-0");
+        b1.addLast("item-1");
 
-        assertNotEquals(a1, b1);
+        assertEquals(a1, b1);
     }
 }
