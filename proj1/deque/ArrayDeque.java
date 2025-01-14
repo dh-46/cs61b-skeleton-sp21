@@ -59,12 +59,13 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         }
 
         System.out.println(builder);
-        System.out.println("Capacity = " + capacity + "; Size = " + size + "; Ratio = " + ((double) size / capacity));
     }
 
     @Override
     public T removeFirst() {
-        if (isEmpty()) return null;
+        if (isEmpty()) {
+            return null;
+        }
 
         if (isUsageRatioLow()) {
             resize(capacity / 2);
@@ -82,14 +83,18 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     private boolean isUsageRatioLow() {
-        if (capacity <= 16) return false;
+        if (capacity <= 16) {
+            return false;
+        }
         double ratio = (double) size / capacity;
         return ratio <= 0.25;
     }
 
     @Override
     public T removeLast() {
-        if (isEmpty()) return null;
+        if (isEmpty()) {
+            return null;
+        }
 
         if (isUsageRatioLow()) {
             resize(capacity / 2);
@@ -120,18 +125,24 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public boolean equals(Object obj) {
         // 如果是同一個指向的物件那就不用再檢查了 (有助於效能)
-        if (obj == this) return true;
+        if (obj == this) {
+            return true;
+        }
 
         // 是否同型別
         if (obj instanceof ArrayDeque) {
             ArrayDeque<?> otherArrayDeque = (ArrayDeque<?>) obj;
             // 數量不同
-            if (otherArrayDeque.size != this.size) return false;
+            if (otherArrayDeque.size != this.size) {
+                return false;
+            }
 
             for (int i = 0; i < size; i++) {
                 T item = get(i);
                 T other = (T) otherArrayDeque.get(i);
-                if (item != other) return false;
+                if (item != other) {
+                    return false;
+                }
             }
 
             return true;
@@ -186,7 +197,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
         private int index;
 
-        public ArrayDequeIterator() {
+        ArrayDequeIterator() {
             index = 0;
         }
 

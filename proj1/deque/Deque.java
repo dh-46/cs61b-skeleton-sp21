@@ -1,10 +1,7 @@
 package deque;
 
-import java.util.Iterator;
-
 /**
- * @see <a href="https://sp21.datastructur.es/materials/proj/proj1/proj1#the-deque-api">The Deque API</a>
- * for more details
+ * The Deque Api
  */
 public interface Deque<T> {
 
@@ -13,21 +10,21 @@ public interface Deque<T> {
      *
      * @param item can assume item is never null
      */
-    public void addFirst(T item);
+    void addFirst(T item);
 
     /**
      * Adds an item of type T to the back of the deque.
      *
      * @param item can assume that item is never null.
      */
-    public void addLast(T item);
+    void addLast(T item);
 
     /**
      * Check is deque empty
      *
      * @return true if deque is empty, false otherwise.
      */
-    public default boolean isEmpty() {
+    default boolean isEmpty() {
         return size() == 0;
     }
 
@@ -36,27 +33,27 @@ public interface Deque<T> {
      *
      * @return deque's size
      */
-    public int size();
+    int size();
 
     /**
      * Prints the items in the deque from first to last, separated by a space.
      * Once all the items have been printed, print out a new line.
      */
-    public void printDeque();
+    void printDeque();
 
     /**
      * Removes and returns the item at the front of the deque.
      *
      * @return If no such item exists, returns null.
      */
-    public T removeFirst();
+    T removeFirst();
 
     /**
      * Removes and returns the item at the back of the deque.
      *
      * @return If no such item exists, returns null.
      */
-    public T removeLast();
+    T removeLast();
 
     /**
      * Gets the item at the given index,
@@ -68,5 +65,5 @@ public interface Deque<T> {
      * @param index position of the item
      * @return If no such item exists, returns null.
      */
-    public T get(int index);
+    T get(int index);
 }

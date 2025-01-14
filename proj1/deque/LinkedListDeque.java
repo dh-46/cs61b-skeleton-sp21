@@ -117,7 +117,9 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
             pointer = pointer.next;
         }
 
-        if (pointer == sentinelNode) return null;
+        if (pointer == sentinelNode) {
+            return null;
+        }
 
         return pointer.item;
     }
@@ -129,7 +131,9 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
      * @return node
      */
     public T getRecursive(int index) {
-        if (size == 0) return null;
+        if (size == 0) {
+            return null;
+        }
 
         if (index < 0 || index >= size) {
             return null;
@@ -140,7 +144,8 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     /**
      * Get node recursively
-     * @param node current node
+     *
+     * @param node  current node
      * @param index target index
      * @return node
      */
@@ -177,21 +182,29 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public boolean equals(Object obj) {
         // 如果是同一個指向的物件那就不用再檢查了 (有助於效能)
-        if (obj == this) return true;
+        if (obj == this) {
+            return true;
+        }
 
         // 不同型別
-        if (!(obj instanceof LinkedListDeque)) return false;
+        if (!(obj instanceof LinkedListDeque)) {
+            return false;
+        }
 
         LinkedListDeque<?> otherList = (LinkedListDeque<?>) obj;
 
         // 數量不同
-        if (otherList.size != this.size) return false;
+        if (otherList.size != this.size) {
+            return false;
+        }
 
         for (int i = 0; i < size; i++) {
             T item = get(i);
             T other = (T) otherList.get(i);
 
-            if (item != other) return false;
+            if (item != other) {
+                return false;
+            }
         }
 
         return true;
