@@ -32,7 +32,7 @@
 | [Lab 1: IntelliJ, Java, git](https://sp21.datastructur.es/materials/lab/lab1/lab1)                          | [:link: link](./lab1/) | 24/12/13 | :white_check_mark: | **_32.0 / 32.0_** |
 | [Lab 2: JUnit Tests and Debugging](https://sp21.datastructur.es/materials/lab/lab2/lab2)                    | [:link: link](./lab2/) | 25/01/02 | :white_check_mark: | **_64.0 / 64.0_** |
 | [Lab 3: Timing Tests and Randomized Comparison Tests](https://sp21.datastructur.es/materials/lab/lab3/lab3) | [:link: link](./lab3/) | 25/01/07 | :white_check_mark: | **_64.0 / 64.0_** |
-| [Lab 4: Git and Debugging](https://sp21.datastructur.es/materials/lab/lab4/lab4)                            | [:link: link](./lab4/) |          |                    |  **_- / 32.0_**   |
+| [Lab 4: Git and Debugging](https://sp21.datastructur.es/materials/lab/lab4/lab4)                            | [:link: link](./lab4/) | 25/01/15 | :white_check_mark: | **_32.0 / 32.0_** |
 | [Lab 5: Project 1 Peer Code Review](https://sp21.datastructur.es/materials/lab/lab5/lab5)                   | [:link: link](./lab5/) |          |                    |    **_NONE_**     |
 | [Lab 6: Getting Started on Project 2](https://sp21.datastructur.es/materials/lab/lab6/lab6)                 | [:link: link](./lab6/) |          |                    |                   |
 | [Lab 7: BSTMap](https://sp21.datastructur.es/materials/lab/lab7/lab7)                                       | [:link: link](./lab7/) |          |                    |                   |
@@ -48,9 +48,9 @@ total perfection for full credit. Also finished almost all optional exercises.
 | Lab 1: Welcome to Java               | :white_check_mark: |  **_32.0 / 32.0_**  |
 | Lab 2: Debugging                     | :white_check_mark: |  **_64.0 / 64.0_**  |
 | Lab 3: Randomized Testing and Timing | :white_check_mark: |  **_64.0 / 64.0_**  |
-| Lab 4: Debugging                     |                    |                     |
-| Lab 4A: Git Exercise Part A          |                    |                     |
-| Lab 4B: Git Exercise Part B          |                    |                     |
+| Lab 4: Debugging                     | :white_check_mark: |  **_32.0 / 32.0_**  |
+| Lab 4A: Git Exercise Part A          | :white_check_mark: |  **_16.0 / 16.0_**  |
+| Lab 4B: Git Exercise Part B          | :white_check_mark: |  **_16.0 / 16.0_**  |
 | Lab 6: Getting Started on Project 2  |                    |                     |
 | Lab 7: BST Map                       |                    |                     |
 | Lab 8: Hash Map                      |                    |                     |
