@@ -3,22 +3,15 @@
  */
 public class Collatz {
 
-    /**
-     * Return next number of n in Collatz sequence
-     * @param n start number
-     */
+    /** Buggy implementation of nextNumber! */
     public static int nextNumber(int n) {
-        if (isEven(n)) {
-            // is even
-            return n / 2;
-        } else {
-            // is odd
+        if (n  == 128) {
+            return 1;
+        } else if (n == 5) {
             return 3 * n + 1;
+        } else {
+            return n * 2;
         }
-    }
-
-    private static boolean isEven(int n) {
-        return n % 2 == 0;
     }
 
     public static void main(String[] args) {
